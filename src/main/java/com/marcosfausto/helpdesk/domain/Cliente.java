@@ -23,6 +23,7 @@ public class Cliente extends Pessoa {
         setPerfis(Perfil.CLIENTE);
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Chamado> chamados = new ArrayList<>();
 

@@ -1,5 +1,7 @@
 package com.marcosfausto.helpdesk.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.marcosfausto.helpdesk.domain.enums.Perfil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +17,13 @@ import java.util.List;
 @Entity
 public class Tecnico extends Pessoa {
 
+    private static final long serialVersionUID= 1L;
+
     public Tecnico() {
         setPerfis(Perfil.TECNICO);
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "tecnico")
     private List<Chamado> chamados = new ArrayList<>();
 

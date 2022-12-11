@@ -33,10 +33,11 @@ public class Chamado {
     private String titulo;
     private String observacoes;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name="cliente_id")
     @JsonBackReference
     private Cliente cliente;
