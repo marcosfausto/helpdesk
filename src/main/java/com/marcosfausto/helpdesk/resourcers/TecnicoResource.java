@@ -1,6 +1,7 @@
 package com.marcosfausto.helpdesk.resourcers;
 
 import com.marcosfausto.helpdesk.domain.Tecnico;
+import com.marcosfausto.helpdesk.domain.dtos.TecnicoDTO;
 import com.marcosfausto.helpdesk.services.TecnicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class TecnicoResource {
     private final TecnicoService tecnicoService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Tecnico> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(tecnicoService.findById(id));
+    public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(new TecnicoDTO(tecnicoService.findById(id)));
     }
 }
