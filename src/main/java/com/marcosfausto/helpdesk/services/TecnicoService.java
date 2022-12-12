@@ -1,6 +1,7 @@
 package com.marcosfausto.helpdesk.services;
 
 import com.marcosfausto.helpdesk.domain.Tecnico;
+import com.marcosfausto.helpdesk.domain.dtos.TecnicoDTO;
 import com.marcosfausto.helpdesk.repositories.TecnicoRepository;
 import com.marcosfausto.helpdesk.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,10 @@ public class TecnicoService {
 
     public List<Tecnico> findAll() {
         return tecnicoRepository.findAll();
+    }
+    public Tecnico create(TecnicoDTO tecnicoDTO) {
+        tecnicoDTO.setId(null);
+        return tecnicoRepository.save(new Tecnico(tecnicoDTO));
     }
 
 }
