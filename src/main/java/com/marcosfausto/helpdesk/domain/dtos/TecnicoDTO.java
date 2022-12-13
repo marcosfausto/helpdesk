@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,9 +20,13 @@ import java.util.stream.Collectors;
 public class TecnicoDTO {
 
     protected Integer id;
+    @NotBlank(message = "O campo nome é requerido!")
     protected String nome;
+    @NotBlank(message = "O campo cpf é requerido!")
     protected String cpf;
+    @NotBlank(message = "O campo email é requerido!")
     protected String email;
+    @NotBlank(message = "O campo senha é requerido!")
     protected String senha;
     protected Set<Integer> perfis = new HashSet<>();
     @JsonFormat(pattern = "dd/MM/yyyy")
