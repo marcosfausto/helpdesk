@@ -42,6 +42,17 @@ public class TecnicoService {
         tecnicoRepository.save(new Tecnico(tecnicoDTO));
     }
 
+    public void delete(Integer id) {
+        if (findById(id).getChamados().size() > 0 ) {
+            throw new DataIntegrityViolationException("Técnico possui ordens de serviço e não pode ser deletado!");
+        }
+        try {
+            tecnicoRepository.delete(findById(id));
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Não é possivel excluir porque há entidades relacionadas");
+        }
+    }
+
     public void validaCpfEEmail(TecnicoDTO tecnicoDTO) {
         Optional<Pessoa> pessoa = pessoaRepository.findByCpf(tecnicoDTO.getCpf());
         if (pessoa.isPresent() && !pessoa.get().getId().equals(tecnicoDTO.getId())) {
