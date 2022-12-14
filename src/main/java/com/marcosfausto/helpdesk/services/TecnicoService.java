@@ -10,6 +10,8 @@ import com.marcosfausto.helpdesk.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.TransactionalException;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,12 @@ public class TecnicoService {
         tecnicoDTO.setId(null);
         validaCpfEEmail(tecnicoDTO);
         return tecnicoRepository.save(new Tecnico(tecnicoDTO));
+    }
+
+    public void update(Integer id, TecnicoDTO tecnicoDTO) {
+        tecnicoDTO.setId(findById(id).getId());
+        validaCpfEEmail(tecnicoDTO);
+        tecnicoRepository.save(new Tecnico(tecnicoDTO));
     }
 
     public void validaCpfEEmail(TecnicoDTO tecnicoDTO) {

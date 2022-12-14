@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class Pessoa implements Serializable {
     protected String nome;
     @EqualsAndHashCode.Include()
     @Column(unique = true)
+    @CPF
     protected String cpf;
     @Column(unique = true)
     protected String email;
