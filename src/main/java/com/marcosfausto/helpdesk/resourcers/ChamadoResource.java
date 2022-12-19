@@ -36,5 +36,11 @@ public class ChamadoResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(chamado.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody ChamadoDTO chamadoDTO) {
+        chamadoService.update(id,chamadoDTO);
+        return ResponseEntity.noContent().build();
+    }
     
 }

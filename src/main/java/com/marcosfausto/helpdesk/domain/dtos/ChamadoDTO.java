@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -35,9 +36,9 @@ public class ChamadoDTO implements Serializable {
     private Integer prioridade;
     @NotNull(message = "O campo STATUS É requerido")
     private Integer status;
-    @NotNull(message = "O campo TITULO É requerido")
+    @NotBlank(message = "O campo TITULO É requerido")
     private String titulo;
-    @NotNull(message = "O campo OBSERVACOES É requerido")
+    @NotBlank(message = "O campo OBSERVACOES É requerido")
     private String observacoes;
     @NotNull(message = "O campo TECNICO É requerido")
     private Integer tecnico;
@@ -46,18 +47,18 @@ public class ChamadoDTO implements Serializable {
     private String nomeTecnico;
     private String nomeCliente;
 
-    public ChamadoDTO(Chamado obj) {
-        this.id = obj.getId();
-        this.dataAbertura = obj.getDataAbertura();
-        this.dataFechamento = obj.getDataFechamento();
-        this.prioridade = obj.getPrioridade().getCodigo();
-        this.status = obj.getStatus().getCodigo();
-        this.titulo = obj.getTitulo();
-        this.observacoes = obj.getObservacoes();
-        this.tecnico = obj.getTecnico().getId();
-        this.cliente = obj.getCliente().getId();
-        this.nomeCliente = obj.getCliente().getNome();
-        this.nomeTecnico = obj.getTecnico().getNome();
+    public ChamadoDTO(Chamado chamado) {
+        this.id = chamado.getId();
+        this.dataAbertura = chamado.getDataAbertura();
+        this.dataFechamento = chamado.getDataFechamento();
+        this.prioridade = chamado.getPrioridade().getCodigo();
+        this.status = chamado.getStatus().getCodigo();
+        this.titulo = chamado.getTitulo();
+        this.observacoes = chamado.getObservacoes();
+        this.tecnico = chamado.getTecnico().getId();
+        this.cliente = chamado.getCliente().getId();
+        this.nomeCliente = chamado.getCliente().getNome();
+        this.nomeTecnico = chamado.getTecnico().getNome();
     }
 
     @Override

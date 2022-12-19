@@ -4,6 +4,7 @@ import com.marcosfausto.helpdesk.domain.Chamado;
 import com.marcosfausto.helpdesk.domain.Cliente;
 import com.marcosfausto.helpdesk.domain.Tecnico;
 import com.marcosfausto.helpdesk.domain.dtos.ChamadoDTO;
+import com.marcosfausto.helpdesk.domain.dtos.ClienteDTO;
 import com.marcosfausto.helpdesk.domain.enums.Prioridade;
 import com.marcosfausto.helpdesk.domain.enums.Status;
 import com.marcosfausto.helpdesk.repositories.ChamadoRepository;
@@ -38,21 +39,33 @@ public class ChamadoService {
         return chamadoRepository.save(newChamado(chamadoDTO));
     }
 
-    private Chamado newChamado(ChamadoDTO obj) {
-        Tecnico tecnico = tecnicoService.findById(obj.getTecnico());
-        Cliente cliente = clienteService.findById(obj.getCliente());
+    public void update(Integer id, ChamadoDTO chamadoDTO) {
+        findById(id);
+        chamadoDTO.setId(id);
+        chamadoRepository.save(newChamado(chamadoDTO));
+    }
+
+    private Chamado newChamado(ChamadoDTO chamadoDTO) {
+        Tecnico tecnico = tecnicoService.findById(chamadoDTO.getTecnico());
+        Cliente cliente = clienteService.findById(chamadoDTO.getCliente());
 
         Chamado chamado = new Chamado();
-        if(obj.getId() != null) {
-            chamado.setId(obj.getId());
+        if(chamadoDTO.getId() != null) {
+            chamado.setId(chamadoDTO.getId());
+        }
+
+        if(chamadoDTO.getStatus().equals(2)) {
+            chamado.setDataFechamento(LocalDate.now());
         }
 
         chamado.setTecnico(tecnico);
         chamado.setCliente(cliente);
-        chamado.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
-        chamado.setStatus(Status.toEnum(obj.getStatus()));
-        chamado.setTitulo(obj.getTitulo());
-        chamado.setObservacoes(obj.getObservacoes());
+        chamado.setPrioridade(Prioridade.toEnum(chamadoDTO.getPrioridade()));
+        chamado.setStatus(Status.toEnum(chamadoDTO.getStatus()));
+        chamado.setTitulo(chamadoDTO.getTitulo());
+        chamado.setObservacoes(chamadoDTO.getObservacoes());
         return chamado;
     }
+
+
 }
