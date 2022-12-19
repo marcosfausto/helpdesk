@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -30,11 +31,17 @@ public class ChamadoDTO implements Serializable {
     private LocalDate dataAbertura = LocalDate.now();
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataFechamento;
+    @NotNull(message = "O campo PRIORIDADE É requerido")
     private Integer prioridade;
+    @NotNull(message = "O campo STATUS É requerido")
     private Integer status;
+    @NotNull(message = "O campo TITULO É requerido")
     private String titulo;
+    @NotNull(message = "O campo OBSERVACOES É requerido")
     private String observacoes;
+    @NotNull(message = "O campo TECNICO É requerido")
     private Integer tecnico;
+    @NotNull(message = "O campo CLIENTE É requerido")
     private Integer cliente;
     private String nomeTecnico;
     private String nomeCliente;
