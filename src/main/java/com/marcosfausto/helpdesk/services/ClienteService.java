@@ -8,6 +8,7 @@ import com.marcosfausto.helpdesk.repositories.ClienteRepository;
 import com.marcosfausto.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.marcosfausto.helpdesk.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final PessoaRepository pessoaRepository;
-
+    private final BCryptPasswordEncoder encoder;
 
     public Cliente findById(Integer id) {
         return clienteRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
@@ -30,6 +31,7 @@ public class ClienteService {
     }
     public Cliente create(ClienteDTO clienteDTO) {
         clienteDTO.setId(null);
+        clienteDTO.setSenha(encoder.encode(clienteDTO.getSenha()));
         validaCpfEEmail(clienteDTO);
         return clienteRepository.save(new Cliente(clienteDTO));
     }

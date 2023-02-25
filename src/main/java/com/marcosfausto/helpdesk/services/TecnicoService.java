@@ -8,6 +8,7 @@ import com.marcosfausto.helpdesk.repositories.TecnicoRepository;
 import com.marcosfausto.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.marcosfausto.helpdesk.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.TransactionalException;
@@ -21,7 +22,7 @@ public class TecnicoService {
 
     private final TecnicoRepository tecnicoRepository;
     private final PessoaRepository pessoaRepository;
-
+    private final BCryptPasswordEncoder encoder;
 
     public Tecnico findById(Integer id) {
         return tecnicoRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
@@ -32,6 +33,7 @@ public class TecnicoService {
     }
     public Tecnico create(TecnicoDTO tecnicoDTO) {
         tecnicoDTO.setId(null);
+        tecnicoDTO.setSenha(encoder.encode(tecnicoDTO.getSenha()));
         validaCpfEEmail(tecnicoDTO);
         return tecnicoRepository.save(new Tecnico(tecnicoDTO));
     }
