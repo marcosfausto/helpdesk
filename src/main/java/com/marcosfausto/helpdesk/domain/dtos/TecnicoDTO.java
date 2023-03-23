@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class TecnicoDTO {
 
     protected Integer id;
@@ -32,6 +31,11 @@ public class TecnicoDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
+    public TecnicoDTO() {
+        super();
+        setPerfil(Perfil.CLIENTE);
+    }
+
     public TecnicoDTO(Tecnico tecnico) {
             this.id = tecnico.getId();
             this.nome = tecnico.getNome();
@@ -40,13 +44,15 @@ public class TecnicoDTO {
             this.senha = tecnico.getSenha();
             this.perfis = tecnico.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
             this.dataCriacao = tecnico.getDataCriacao();
+            setPerfil(Perfil.CLIENTE);
     }
+
 
     public Set<Perfil> getPerfis() {
         return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
     }
 
-    public void setPerfis(Perfil perfil) {
+    public void setPerfil(Perfil perfil) {
         this.perfis.add(perfil.getCodigo());
     }
 
