@@ -38,10 +38,17 @@ public class TecnicoService {
         return tecnicoRepository.save(new Tecnico(tecnicoDTO));
     }
 
-    public void update(Integer id, TecnicoDTO tecnicoDTO) {
-        tecnicoDTO.setId(findById(id).getId());
+    public Tecnico update(Integer id, TecnicoDTO tecnicoDTO) {
+        tecnicoDTO.setId(id);
+        Tecnico oldObj = findById(id);
+
+        if(!tecnicoDTO.getSenha().equals(oldObj.getSenha())) {
+            tecnicoDTO.setSenha(encoder.encode(tecnicoDTO.getSenha()));
+        }
+
         validaCpfEEmail(tecnicoDTO);
-        tecnicoRepository.save(new Tecnico(tecnicoDTO));
+        oldObj = new Tecnico(tecnicoDTO);
+        return tecnicoRepository.save(oldObj);
     }
 
     public void delete(Integer id) {

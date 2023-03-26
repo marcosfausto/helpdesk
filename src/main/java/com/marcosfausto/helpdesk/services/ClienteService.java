@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +37,17 @@ public class ClienteService {
         return clienteRepository.save(new Cliente(clienteDTO));
     }
 
-    public void update(Integer id, ClienteDTO clienteDTO) {
-        clienteDTO.setId(findById(id).getId());
+    public Cliente update(Integer id, @Valid ClienteDTO clienteDTO) {
+        clienteDTO.setId(id);
+        Cliente oldObj = findById(id);
+
+        if(!clienteDTO.getSenha().equals(oldObj.getSenha())) {
+            clienteDTO.setSenha(encoder.encode(clienteDTO.getSenha()));
+        }
+
         validaCpfEEmail(clienteDTO);
-        clienteRepository.save(new Cliente(clienteDTO));
+        oldObj = new Cliente(clienteDTO);
+        return clienteRepository.save(oldObj);
     }
 
     public void delete(Integer id) {
